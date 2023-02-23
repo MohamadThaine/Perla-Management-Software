@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="fonts\Cairo.ttf" />
+    <None Remove="img\accounting.png" />
+    <None Remove="img\add-customer.png" />
+    <None Remove="img\appointments.png" />
+    <None Remove="img\calendar.png" />
+    <None Remove="img\money.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="fonts\Cairo.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\accounting.png" />
+    <Resource Include="img\add-customer.png" />
+    <Resource Include="img\appointments.png" />
+    <Resource Include="img\calendar.png" />
+    <Resource Include="img\money.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.8.0-ci148" />
+    <PackageReference Include="MySql.Data" Version="8.0.32" />
+  </ItemGroup>
+
+</Project>

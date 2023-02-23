@@ -1,0 +1,46 @@
+﻿<Window x:Class="Perla.Tools.ChangeAppoitmentDate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Perla.Tools"
+        mc:Ignorable="d"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        Background="#e87cb2"
+        TextBlock.FontFamily="/fonts/#Cairo"
+        FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="تاجيل موعد" Height="250" Width="400">
+    <Window.DataContext>
+        <Binding RelativeSource="{RelativeSource Mode=Self}"/>
+    </Window.DataContext>
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center">
+            <Run Text="الاسم:"/>
+            <Run Text="{Binding customerAppoitments.Customer.Name}"/>
+        </TextBlock>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="التاريخ" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"></TextBlock>
+            <DatePicker x:Name="AppoitmentDate" Grid.Column="1" Margin="5" SelectedDate="{Binding customerAppoitments.Appoitment.Appointment_Data.Date , Mode=OneWay}"></DatePicker>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="الوقت" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"></TextBlock>
+            <mah:TimePicker x:Name="AppoitmentTime"  Style="{StaticResource MahApps.Styles.Control.WindowCommands }" Grid.Column="1" Margin="5"></mah:TimePicker>
+        </Grid>
+        <Button Grid.Row="3" x:Name="ChangeDateBT" Content="تغيير الموعد" Width="200" Click="ChangeDate"/>
+    </Grid>
+</Window>

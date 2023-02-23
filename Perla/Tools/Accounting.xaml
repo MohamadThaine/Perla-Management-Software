@@ -1,0 +1,33 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Perla.Tools"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" x:Class="Perla.Tools.Accounting"
+        mc:Ignorable="d"
+        Background="#e87cb2"
+        TextBlock.FontFamily="/fonts/#Cairo"
+        FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
+        Title="حسابات" Height="300" Width="400">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ComboBox  x:Name="DataType" Width="250" Height="30">
+            <ComboBoxItem Content="ربح (مصاريف - دخل)" IsSelected="True"/>
+            <ComboBoxItem Content="المصاريف"/>
+            <ComboBoxItem Content="الدخل"/>
+        </ComboBox>
+        <ComboBox  Grid.Row="1" x:Name="GetDataFromDate" Width="250" Height="30">
+            <ComboBoxItem Content="اخر يوم" IsSelected="True"/>
+            <ComboBoxItem Content="اخر 7 ايام"/>
+            <ComboBoxItem Content="اخر 30 يوم"/>
+            <ComboBoxItem Content="اخر سنه"/>
+            <ComboBoxItem Content="جميع السنين"/>
+        </ComboBox>
+        <Button x:Name="SaveFileBT" Grid.Row="2" Content="حفظ الملف" Width="200" Click="GeneratePDF"/>
+    </Grid>
+</Window>
