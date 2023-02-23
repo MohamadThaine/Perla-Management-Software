@@ -10,6 +10,7 @@
         TextBlock.FontFamily="/fonts/#Cairo"
         FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
+        Icon="/img/PerlaIcon.png"
         Title="تاجيل موعد" Height="250" Width="400">
     <Window.DataContext>
         <Binding RelativeSource="{RelativeSource Mode=Self}"/>

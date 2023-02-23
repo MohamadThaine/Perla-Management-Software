@@ -9,7 +9,8 @@
         TextBlock.FontFamily="/fonts/#Cairo"
         FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
         Title="اضافه دور" Height="450" Width="400"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Icon="/img/PerlaIcon.png">
     <Grid>
         <Grid FlowDirection="RightToLeft">
             <Grid.RowDefinitions>

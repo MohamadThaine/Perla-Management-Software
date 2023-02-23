@@ -9,6 +9,7 @@
         TextBlock.FontFamily="/fonts/#Cairo"
         FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
         Title="{Binding Customer.Name}" Height="400" Width="800"
+        Icon="/img/PerlaIcon.png"
         ResizeMode="NoResize"
         Closed="Profile_Closed">
     <Window.DataContext>

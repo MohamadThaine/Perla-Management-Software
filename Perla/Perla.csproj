@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>PerlaIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,11 @@
     <None Remove="img\appointments.png" />
     <None Remove="img\calendar.png" />
     <None Remove="img\money.png" />
+    <None Remove="img\PerlaIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="PerlaIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +32,7 @@
     <Resource Include="img\appointments.png" />
     <Resource Include="img\calendar.png" />
     <Resource Include="img\money.png" />
+    <Resource Include="img\PerlaIcon.png" />
   </ItemGroup>
 
   <ItemGroup>

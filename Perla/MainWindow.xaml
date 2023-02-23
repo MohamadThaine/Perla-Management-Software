@@ -13,6 +13,7 @@
         WindowStartupLocation="CenterScreen"
         TextBlock.FontFamily="/fonts/#Cairo"
         FontFamily="/fonts/#Cairo"
+        Icon="/img/PerlaIcon.png"
         >
     <Window.DataContext>
         <classes:PrepareData/>

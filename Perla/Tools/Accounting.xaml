@@ -9,7 +9,8 @@
         Background="#e87cb2"
         TextBlock.FontFamily="/fonts/#Cairo"
         FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
-        Title="حسابات" Height="300" Width="400">
+        Title="حسابات" Height="300" Width="400"
+        Icon="/img/PerlaIcon.png">
     <Grid FlowDirection="RightToLeft">
         <Grid.RowDefinitions>
             <RowDefinition/>

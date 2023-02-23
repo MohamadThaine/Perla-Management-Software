@@ -9,7 +9,8 @@
         FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Background="#e87cb2"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Icon="/img/PerlaIcon.png">
     <Window.DataContext>
         <Binding RelativeSource="{RelativeSource Mode=Self}"/>
     </Window.DataContext>

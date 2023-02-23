@@ -9,6 +9,7 @@
         TextBlock.FontFamily="/fonts/#Cairo"
         FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
         Title="اضافه مصاريف" Height="400" Width="400"
+        Icon="/img/PerlaIcon.png"
         ResizeMode="NoResize">
     <Grid FlowDirection="RightToLeft">
         <Grid.RowDefinitions>

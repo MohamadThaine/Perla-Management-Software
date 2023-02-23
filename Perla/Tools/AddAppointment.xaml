@@ -13,6 +13,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:classes="clr-namespace:Perla.classes"
         ResizeMode="NoResize"
+        Icon="/img/PerlaIcon.png"
         >
     <Grid FlowDirection="RightToLeft">
         <Grid.ColumnDefinitions>
