@@ -7,6 +7,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Background="#e87cb2"
+        Topmost="true"
         Title="تعيين دور" Height="500" Width="800"
         TextBlock.FontFamily="/fonts/#Cairo"
         FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
@@ -34,19 +35,6 @@
             <TextBlock Text="الاسم:" VerticalAlignment="Center" FontSize="14" Margin=" 60,0,0,0"></TextBlock>
             <TextBox x:Name="Name" VerticalAlignment="Center" Margin="60 , 0 , 0, 0" Width="250" ></TextBox>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="1">
-            <TextBlock Text="تاريخ الجلسه:" VerticalAlignment="Center" FontSize="14" Margin=" 20,0,0,0"></TextBlock>
-            <DatePicker x:Name="AppointmentDate" Margin="50 , 0 , 0, 0" Width="250" DisplayDateStart="{x:Static sys:DateTime.Today}">
-            </DatePicker>
-        </Grid>
-        <Grid Grid.Column="1" Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="وقت الجلسه:" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-            <mah:TimePicker x:Name="AppointmentTime" HorizontalAlignment="Center"  Grid.Column="1" Margin="0 , 0 , 30, 0" Width="250"></mah:TimePicker>
-        </Grid>
         <Grid Grid.Row="2">
             <TextBlock Text="رقم الهاتف:" VerticalAlignment="Center" FontSize="14" Margin=" 30,0,0,0"></TextBlock>
             <TextBox x:Name="PhoneNum" VerticalAlignment="Center" Margin="60 , 0 , 0, 0" Width="250" MaxLength="10" PreviewTextInput="NumbersOnly"></TextBox>
@@ -57,6 +45,21 @@
                      VerticalAlignment="Center" HorizontalAlignment="Center" Margin="60 , 0 , 0 ,0">
             </TextBox>
         </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <TextBlock Text="تاريخ الجلسه:" VerticalAlignment="Center" FontSize="14" Margin=" 20,0,0,0"></TextBlock>
+            <DatePicker x:Name="AppointmentDate" Margin="50 , 0 , 0, 0" Width="250" SelectedDate="{x:Static sys:DateTime.Today}">
+            </DatePicker>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="وقت الجلسه:" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <mah:TimePicker x:Name="AppointmentTime" HorizontalAlignment="Center"  Grid.Column="1" Margin="0 , 0 , 30, 0" Width="250"></mah:TimePicker>
+        </Grid>
+        
+        
         <Button x:Name="AddAppoitment" Grid.Row="3" Grid.ColumnSpan="2" Width="240" Content="تعيين الدور" Click="AddAppoitmentToDB"></Button>
     </Grid>
 </Window>

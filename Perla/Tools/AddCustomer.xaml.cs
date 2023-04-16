@@ -21,15 +21,17 @@ namespace Perla.Tools
             if (!IsDataValid())
                 return;
             string[] Values = new string[4];
-            Values[0] = CustomerID.Text;
+            Values[0] = (string.IsNullOrEmpty(CustomerID.Text)) ? "0" : CustomerID.Text;
             Values[1] = Name.Text;
             Values[2] = PhoneNum.Text;
             Values[3] = (string.IsNullOrEmpty(PaidMoney.Text)) ? "0" : PaidMoney.Text;
             try
             {
-                DBManager.InsertToDB("customer", Values);
-                PrepareData.customerList.Add(new Customer(Convert.ToDouble(Values[0]), Values[1], Convert.ToDouble(Values[2]),
+                string ID = DBManager.InsertToDB("customer", Values).ToString();
+                if (ID.Length == 8) ID = "0" + ID;
+                PrepareData.customerList.Add(new Customer(ID, Values[1], Values[2],
                     Convert.ToDouble(Values[3])));
+                CustomerID.Text = ID;
             }
             catch (MySql.Data.MySqlClient.MySqlException Error)
             {
@@ -42,7 +44,7 @@ namespace Perla.Tools
         }
         private bool IsDataValid()
         {
-            if (CustomerID.Text == "" || Name.Text == "" || PhoneNum.Text == "")
+            if (Name.Text == "" || PhoneNum.Text == "")
             {
                 MessageBox.Show("لا تترك اي حقل مطلوب فارغ");
                 return false;

@@ -30,6 +30,7 @@ namespace Perla.Tools
                 PhoneNum.Text = AppointmentCustomer.PhoneNumber.ToString();
                 Name.IsReadOnly = true;
                 PhoneNum.IsReadOnly = true;
+                ExistingCustomer = true;
             }
         }
 
@@ -50,7 +51,7 @@ namespace Perla.Tools
         {
             try
             {
-                AppointmentCustomer = PrepareData.customerList.Single(cust => cust.ID == Convert.ToDouble(CustomerID.Text));
+                AppointmentCustomer = PrepareData.customerList.Single(cust => cust.ID == CustomerID.Text);
                 ExistingCustomer = true;
                 Name.Text = AppointmentCustomer.Name;
                 PhoneNum.Text = AppointmentCustomer.PhoneNumber.ToString();
@@ -88,7 +89,17 @@ namespace Perla.Tools
             }
             try
             {
-                Appoitment appoitment = new Appoitment(0, Convert.ToDateTime(Values[1]), Convert.ToDouble(Values[2]), Values[3], 0);
+                Appoitment appoitment = new Appoitment(0, Convert.ToDateTime(Values[1]), Values[2], Values[3], 0);
+                if (!ExistingCustomer)
+                {
+                    long AddedID = DBManager.InsertToDB("appointment", Values);
+                    appoitment.ID = Convert.ToInt32(AddedID);
+                    CustomerAppoitments customerAppoitments = new CustomerAppoitments(AppointmentCustomer, appoitment);
+                    PrepareData.CustomerAppoitmentsList.Add(customerAppoitments);
+                    if (appoitment.Appointment_Data.Date == DateTime.Today.Date)
+                       PrepareData.todayCustomerAppoiments.Add(customerAppoitments);
+                    return;
+                }
                 if (AddCustomerToApp(appoitment))
                 {
                     long AddedID = DBManager.InsertToDB("appointment", Values);
@@ -107,7 +118,7 @@ namespace Perla.Tools
 
         private bool AppoitmentAlreadyExistInSameTime(DateTime AppDate)
         {
-            int result = DBManager.GetAppoitmentID(0, AppDate);
+            int result = DBManager.GetAppoitmentID("0", AppDate);
             if (result == 0)
             {
                 return false;
@@ -119,14 +130,18 @@ namespace Perla.Tools
         private void AddCustomerToDB()
         {
             string[] Values = new string[4];
-            Values[0] = CustomerID.Text;
+            Values[0] = (string.IsNullOrEmpty(CustomerID.Text)) ? "0" : CustomerID.Text;
             Values[1] = Name.Text;
             Values[2] = PhoneNum.Text;
-            Values[4] = "0";
+            Values[3] = "0";
             try
             {
-                DBManager.InsertToDB("customer", Values);
-                PrepareData.customerList.Add(new Customer(Convert.ToDouble(Values[0]), Values[1], Convert.ToDouble(Values[2]), 0));
+                string ID = DBManager.InsertToDB("customer", Values).ToString();
+                if (ID.Length == 8) ID = "0" + ID;
+                PrepareData.customerList.Add(new Customer(ID, Values[1], Values[2], 0));
+                AppointmentCustomer = new Customer(ID, Values[1], Values[2], 0);
+                CustomerID.Text = ID;
+                ExistingCustomer = true;
             }
             catch (MySql.Data.MySqlClient.MySqlException Error)
             {
@@ -140,8 +155,16 @@ namespace Perla.Tools
 
         private bool AddCustomerToApp(Appoitment appoitment)
         {
-            int CheckAppoitment = PrepareData.CustomerAppoitmentsList.Where(cust => cust.Customer.ID == AppointmentCustomer.ID)
+            int CheckAppoitment = 0;
+            try
+            {
+                CheckAppoitment = PrepareData.CustomerAppoitmentsList.Where(cust => cust.Customer.ID == AppointmentCustomer.ID)
                                                                      .Count(app => app.Appoitment.Appointment_Data.Date == appoitment.Appointment_Data.Date);
+            }catch(System.NullReferenceException Error)
+            {
+                return true;
+            }
+            
             if (CheckAppoitment > 0)
             {
                 MessageBoxResult Result = MessageBox.Show("يوجد لدى هذا الزبون موعد بهذا اليوم هل تريد اضافه الموعد جديد مكان القديم", "خطا",
@@ -167,15 +190,10 @@ namespace Perla.Tools
 
         private bool IsDataValid()
         {
-            if (CustomerID.Text == "" || Name.Text == "" || PhoneNum.Text == "" || Treatment.Text == "" || AppointmentDate.SelectedDate.Value == null
+            if (Name.Text == "" || PhoneNum.Text == "" || Treatment.Text == "" || AppointmentDate.SelectedDate.Value == null
                 || AppointmentTime.SelectedDateTime == null)
             {
                 MessageBox.Show("لا تترك اي حقل مطلوب فارغ");
-                return false;
-            }
-            if (AppointmentDate.SelectedDate.Value.Date < DateTime.Today.Date)
-            {
-                MessageBox.Show("لا يمكن ان يكون الموعد قبل اليوم!");
                 return false;
             }
             return true;

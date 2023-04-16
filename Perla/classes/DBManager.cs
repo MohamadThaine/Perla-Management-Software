@@ -1,11 +1,14 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 
 namespace Perla.classes
 {
     public class DBManager
     {
+        public static string server { get; set; } = File.ReadAllText(@"C:\\Program Files\\Perla\\Server.txt");
         private static MySqlConnection Connection = new MySqlConnection();
         public DBManager()
         {
@@ -15,15 +18,8 @@ namespace Perla.classes
         {
             if (TableName == null) return 0;
             CheckConnetion();
-            string SQLstatment = "INSERT INTO `" + TableName + "` VALUES (";
-            for (int i = 0; i < Values.Length; i++)
-            {
-                SQLstatment += "'" + Values[i] + "'";
-                if (i != Values.Length - 1)
-                    SQLstatment += " ,";
-                else
-                    SQLstatment += ")";
-            }
+            string valuesQuery = string.Join(',', Values.Select(value => "'" + value + "'"));
+            string SQLstatment = "INSERT INTO `" + TableName + "` VALUES (" + valuesQuery + ')';
             MySqlCommand SqlCommand = new MySqlCommand(SQLstatment, Connection);
             SqlCommand.ExecuteNonQuery();
             return SqlCommand.LastInsertedId;
@@ -58,12 +54,12 @@ namespace Perla.classes
             return ReturnedData;
         }
 
-        public static int GetAppoitmentID(double CustomerID, DateTime AppoitmentDate)
+        public static int GetAppoitmentID(string CustomerID, DateTime AppoitmentDate)
         {
             CheckConnetion();
             int ID = 0;
             string SQLstatment = "";
-            if (CustomerID != 0)
+            if (CustomerID != "0")
             {
                 SQLstatment = "SELECT ID FROM appointment WHERE Customer_ID = " + CustomerID + " AND Appointment_Data BETWEEN '" +
                     AppoitmentDate.Date.ToString("yyyy-MM-dd") + "' AND '" + AppoitmentDate.Date.ToString("yyyy-MM-dd") + " 23:59:59'";
@@ -96,7 +92,7 @@ namespace Perla.classes
             SqlCommand.ExecuteNonQuery();
         }
 
-        public static void UpdateCustomerData(double OldID, string[] newValues)
+        public static void UpdateCustomerData(string OldID, string[] newValues)
         {
             CheckConnetion();
             string SQLstatement = "SET FOREIGN_KEY_CHECKS=0";
@@ -106,7 +102,7 @@ namespace Perla.classes
                 + newValues[2] + "', `MoneyPaid` = '" + newValues[3] + "'  WHERE (`ID` = '" + OldID + "')";
             SqlCommand = new MySqlCommand(SQLstatement, Connection);
             SqlCommand.ExecuteNonQuery();
-            if (OldID != Convert.ToDouble(newValues[0]))
+            if (OldID != newValues[0])
             {
                 SQLstatement = "UPDATE appointment SET `Customer_ID` = '" + newValues[0] + "' WHERE (`Customer_ID` = '" + OldID + "')";
                 SqlCommand = new MySqlCommand(SQLstatement, Connection);
@@ -117,7 +113,7 @@ namespace Perla.classes
             SqlCommand.ExecuteNonQuery();
         }
 
-        public static void AddPayment(double CustomerID, int AppoitmentID, double PaidMoney)
+        public static void AddPayment(string CustomerID, int AppoitmentID, double PaidMoney)
         {
             CheckConnetion();
             string SQLstatement = "UPDATE customer SET MoneyPaid = MoneyPaid + " + PaidMoney + " WHERE ID = " + CustomerID;
@@ -140,7 +136,7 @@ namespace Perla.classes
         {
             if (Connection.State != System.Data.ConnectionState.Open)
             {
-                string ConnetionString = @"user id=root;password=123321Aa.;server=localhost;database=perla;persistsecurityinfo=True";
+                string ConnetionString = @"user id=root;password=123321As..;server=" + server + ";database=perla;persistsecurityinfo=True";
                 Connection = new MySqlConnection(ConnetionString);
                 Connection.Open();
             }

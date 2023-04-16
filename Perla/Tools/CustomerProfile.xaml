@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Perla.Tools"
+        Topmost="True"
         mc:Ignorable="d"
         Background="#e87cb2"
         TextBlock.FontFamily="/fonts/#Cairo"
         FontFamily="/fonts/#Cairo" WindowStartupLocation="CenterScreen"
-        Title="{Binding Customer.Name}" Height="400" Width="800"
+        Title="{Binding Customer.Name}" Height="400" Width="1000"
         Icon="/img/PerlaIcon.png"
         ResizeMode="NoResize"
         Closed="Profile_Closed">
@@ -43,7 +44,7 @@
         <TextBox x:Name="CustomerPaidMoney" Grid.Row="3"  FontSize="15" VerticalAlignment="Center" 
                  HorizontalAlignment="Center" Text="{Binding Customer.MoneyPaid}">
         </TextBox>
-        <Border Grid.Column="1" Grid.RowSpan="2" BorderBrush="white" BorderThickness="1" Width="200" Margin="10">
+        <Border Grid.Column="1" Grid.RowSpan="2" BorderBrush="white" BorderThickness="1" Width="auto" Margin="10">
             <Grid>
                 <TextBlock Text="تفاصيل الجلسه القادمه:" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Center" Margin=" 0, 0,0 ,0"/>
                 <TextBlock FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 ,0 ,0 , 50">
@@ -83,11 +84,13 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Content="تعديل بيانات الزبون" Width="150" Click="EditCustomerData" />
-            <Button Grid.Column="1"  Content="تغيير موعد الجلسه القادمه"  Width="200" Click="ChangeAppoitmentDate"/>
-            <Button Grid.Column="2" Content="الغاء الجلسه القادمه" Width="160" Click="CancelNextAppoitment"/>
+            <Button Grid.Column="1" Content="اضف جلسه لهذا الزبون" Width="160" Click="AddAppoitment"/>
+            <Button Grid.Column="2"  Content="تغيير موعد الجلسه القادمه"  Width="200" Click="ChangeAppoitmentDate" HorizontalAlignment="Left" Margin="20"/>
+            <Button Grid.Column="3" Content="الغاء الجلسه القادمه" Width="160" Click="CancelNextAppoitment" />
         </Grid>
     </Grid>
 </Window>

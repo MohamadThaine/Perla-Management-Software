@@ -33,7 +33,7 @@ namespace Perla.Tools
             if (Location == "" || StartDate == -1)
                 return;
             var FontColor = new BaseColor(0, 0, 0);
-            string FontPath = "D:\\ARIALUNI.ttf";
+            string FontPath = @"C:\\Program Files\\Perla\\ARIALUNI.ttf";
             BaseFont ArabicFont = BaseFont.CreateFont(FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             var Font = new Font(ArabicFont, 10);
             ArabicLigaturizer Arabic = new ArabicLigaturizer();

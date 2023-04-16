@@ -2,12 +2,12 @@
 {
     public class Customer
     {
-        public double ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
-        public double PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public double MoneyPaid { get; set; }
         public Customer() { }
-        public Customer(double idCustomer, string Name, double PhoneNumber, double MoneyPaid)
+        public Customer(string idCustomer, string Name, string PhoneNumber, double MoneyPaid)
         {
             this.ID = idCustomer;
             this.Name = Name;

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace Perla.classes
 {
@@ -14,28 +17,67 @@ namespace Perla.classes
         static public ObservableCollection<TimeOnly> timeList { get; set; } = new ObservableCollection<TimeOnly>();
         public PrepareData()
         {
-            RefreshData();//Work every 24HR
-            timeList.Add(new TimeOnly(10, 20));
-            timeList.Add(new TimeOnly(11, 30));
-            timeList.Add(new TimeOnly(12, 40));
-            timeList.Add(new TimeOnly(13, 50));
+            customerList = new ObservableCollection<Customer>();
+            appoitmentList = new ObservableCollection<Appoitment>();
+            CustomerAppoitmentsList = new ObservableCollection<CustomerAppoitments>();
+            todayCustomerAppoiments = new ObservableCollection<CustomerAppoitments>();
+            DispatcherTimer RefreshDataTimer = new DispatcherTimer();
+            RefreshDataTimer.Interval = TimeSpan.FromMinutes(10);
+            RefreshDataTimer.Tick += RefreshData;
+            RefreshData(null , null);//Work every 10 Min
+            RefreshDataTimer.Start();
         }
-        public void RefreshData()
+
+        private void RefreshData(object? sender, EventArgs e)
         {
-            customerList = DBManager.GetDataFromDB<Customer>("customer", "*", null, "0");
-            appoitmentList = DBManager.GetDataFromDB<Appoitment>("appointment", "*", null, "0");
-            List<CustomerAppoitments> customerAppoitments =
-                        (from cust in customerList
-                         join app in appoitmentList
-                         on cust.ID equals app.Customer_ID
-                         select new CustomerAppoitments
-                         {
-                             Customer = cust,
-                             Appoitment = app
-                         }).ToList();
-            CustomerAppoitmentsList = new ObservableCollection<CustomerAppoitments>(customerAppoitments);
-            List<CustomerAppoitments> TodayApp = CustomerAppoitmentsList.Where(app => app.Appoitment.Appointment_Data.Date == DateTime.Today.Date).ToList();
-            todayCustomerAppoiments = new ObservableCollection<CustomerAppoitments>(TodayApp);
+            try
+            {
+                customerList.Clear();
+                foreach(Customer customer in DBManager.GetDataFromDB<Customer>("customer", "*", null, "0"))
+                {
+                    if (customer.ID.Length == 8)
+                        customer.ID = "0" + customer.ID;
+                     customerList.Add(customer);
+                    
+                }
+                appoitmentList.Clear();
+                foreach(Appoitment appoitment in DBManager.GetDataFromDB<Appoitment>("appointment", "*", null, "0"))
+                {
+                    if (appoitment.Customer_ID.Length == 8)
+                        appoitment.Customer_ID = "0" + appoitment.Customer_ID;
+                    appoitmentList.Add(appoitment);
+                }
+                List<CustomerAppoitments> customerAppoitments =
+                            (from cust in customerList
+                             join app in appoitmentList
+                             on cust.ID equals app.Customer_ID
+                             select new CustomerAppoitments
+                             {
+                                 Customer = cust,
+                                 Appoitment = app
+                             }).ToList();
+                CustomerAppoitmentsList.Clear();
+                foreach (CustomerAppoitments customerAppoitments1 in customerAppoitments)
+                {
+                    CustomerAppoitmentsList.Add(customerAppoitments1);
+                }
+                DateTime todayData = DateTime.Today.Date;
+                List<CustomerAppoitments> TodayApp = CustomerAppoitmentsList.Where(app => app.Appoitment.Appointment_Data.Date == todayData).ToList();
+                foreach(CustomerAppoitments customerAppoitments2 in TodayApp)
+                {
+                    todayCustomerAppoiments.Add(customerAppoitments2);
+                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                DBManager.server = Microsoft.VisualBasic.Interaction.InputBox("Add radmin server ip", "cant connetect to db", "");
+                if (DBManager.server == null)
+                    return;
+                File.WriteAllText(@"C:\\Program Files\\Perla\\Server.txt", DBManager.server);
+                RefreshData(null, null);
+
+            }
+            
         }
     }
 }

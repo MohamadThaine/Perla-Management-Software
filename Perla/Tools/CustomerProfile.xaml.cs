@@ -123,10 +123,18 @@ namespace Perla.Tools
             }
         }
 
+        private void AddAppoitment(object sender, RoutedEventArgs e)
+        {
+            AddAppointment addAppointment = new(DateTime.Today.Date, Customer);
+            addAppointment.Show();
+        }
+
         private void NumbersOnly(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        
     }
 }
